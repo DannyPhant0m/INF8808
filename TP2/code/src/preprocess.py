@@ -24,6 +24,7 @@ def summarize_lines(my_df):
     '''
     # TODO : Modify the dataframe, removing the line content and replacing
     # it by line count and percent per player per act
+    
     my_df = pd.read_csv('assets/data/romeo_and_juliet.csv')
     
     new_cleaned_list = my_df.groupby(['Act', 'Player']).size().reset_index(name='Line Count')
@@ -31,16 +32,6 @@ def summarize_lines(my_df):
     new_cleaned_list['Line Percent'] = 100 * new_cleaned_list['Line Count'] / new_cleaned_list.groupby('Act')['Line Count'].transform('sum') 
     
     my_df = new_cleaned_list.sort_values(by=['Act','Line Count'], ascending=[True,False])
-
-    #player_lines = grouped.groupby(['Player'])['Line Count'].size().reset_index(name='PlayerLine')
-    
-    #player_lines = player_lines.merge(grouped[['Act','Player','Line Percent']], on = 'Player', how = 'left')
-
-    #my_df = player_lines.rename(columns={'Line Count':'PlayerLine', 'Line Percent':'PlayerPercent'})
-    
-    #my_df = my_df.sort_values(by='Act')
-    
-    #my_df = my_df[['Act', 'Player', 'PlayerLine', 'PlayerPercent']]
         
     return my_df
 
@@ -105,7 +96,5 @@ def clean_names(my_df):
     my_df['Player'] = my_df['Player'].str.title()
     
     my_df = my_df.sort_values(by=['Act','Player'], ascending=[True,True])
-
-    print(my_df)
 
     return my_df

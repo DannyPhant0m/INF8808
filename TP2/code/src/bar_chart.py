@@ -22,13 +22,16 @@ def init_figure():
     fig = go.Figure()
 
     # TODO : Update the template to include our new theme and set the title
-
+    
+    # pas vrm sur
+    hover_template = get_hover_template('',MODES["count"])
+    
     fig.update_layout(
         template=pio.templates['simple_white'],
         dragmode=False,
-        barmode='relative'
+        barmode='relative',
+        title='Lines per act'
     )
-
     return fig
 
 
@@ -44,7 +47,20 @@ def draw(fig, data, mode):
             fig: The figure comprising the drawn bar chart
     '''
     fig = go.Figure(fig)  # conversion back to Graph Object
+    
     # TODO : Update the figure's data according to the selected mode
+    if (mode == MODES["count"]):
+        fig = fig.add_trace(go.Bar(
+            data_frame=data, 
+            x="Act",
+            y="Line Count", 
+            barmode='relative'))
+    else: fig = fig.bar(go.Bar(
+        data_frame=data, 
+        x="Act",
+        y="Line Percent", 
+        barmode='relative'))
+
     return fig
 
 
@@ -59,3 +75,8 @@ def update_y_axis(fig, mode):
             The updated figure
     '''
     # TODO : Update the y axis title according to the current mode
+    fig = go.Figure(fig)
+    
+    if (mode == MODES["count"]):
+        fig = fig.update_layout(y="Lines (Count)")
+    else: fig = fig.update_layout(y="Lines (%)")

@@ -65,7 +65,7 @@ def draw(fig, data, mode):
 
     for player in data.Player.unique():
         fig.add_trace(
-            go.Bar(name=player, x=acts, y = players[player])
+            go.Bar(name=player, x=acts, y = players[player], hovertemplate = get_hover_template(player, mode))
         )
     return fig
 
@@ -83,5 +83,6 @@ def update_y_axis(fig, mode):
     fig = go.Figure(fig)
     
     if (mode == MODES["count"]):
-        fig = fig.update_layout(y="Lines (Count)")
-    else: fig = fig.update_layout(y="Lines (%)")
+        fig = fig.update_layout(y = "Lines (Count)")
+    else: 
+        fig = fig.update_layout(y = "Lines (%)")

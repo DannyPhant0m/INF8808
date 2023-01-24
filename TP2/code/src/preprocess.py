@@ -27,11 +27,11 @@ def summarize_lines(my_df):
     
     my_df = pd.read_csv('assets/data/romeo_and_juliet.csv')
     
-    new_cleaned_list = my_df.groupby(['Act', 'Player']).size().reset_index(name='Line Count')
+    new_cleaned_list = my_df.groupby(['Act', 'Player']).size().reset_index(name='LineCount')
         
-    new_cleaned_list['Line Percent'] = 100 * new_cleaned_list['Line Count'] / new_cleaned_list.groupby('Act')['Line Count'].transform('sum') 
+    new_cleaned_list['LinePercent'] = 100 * new_cleaned_list['LineCount'] / new_cleaned_list.groupby('Act')['LineCount'].transform('sum') 
     
-    my_df = new_cleaned_list.sort_values(by=['Act','Line Count'], ascending=[True,False])
+    my_df = new_cleaned_list.sort_values(by=['Act','LineCount'], ascending=[True,False])
         
     return my_df
 
@@ -62,7 +62,7 @@ def replace_others(my_df):
     # TODO : Replace players in each act not in the top 5 by a
     # new player 'OTHER' which sums their line count and percentage
     
-    my_df = my_df.sort_values(by=['Act','Line Count'], ascending=[True,False])
+    my_df = my_df.sort_values(by=['Act','LineCount'], ascending=[True,False])
 
     top_players = my_df.groupby('Act').head(5)
     
@@ -70,8 +70,8 @@ def replace_others(my_df):
     
     all_other_players = all_other_players.groupby('Act').agg({
         'Player' : 'last',
-        'Line Count' : 'sum',
-        'Line Percent' : 'sum'
+        'LineCount' : 'sum',
+        'LinePercent' : 'sum'
     }).reset_index()
     
     all_other_players['Player'] = 'OTHER'

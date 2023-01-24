@@ -25,8 +25,8 @@ def init_figure():
     
     # pas vrm sur
     hover_template = get_hover_template('',MODES["count"])
-    
     fig.update_layout(
+        title_text='Lines per act',
         template=pio.templates['simple_white'],
         dragmode=False,
         barmode='relative',
@@ -49,20 +49,25 @@ def draw(fig, data, mode):
     fig = go.Figure(fig)  # conversion back to Graph Object
     
     # TODO : Update the figure's data according to the selected mode
-    if (mode == MODES["count"]):
-        fig = fig.add_trace(go.Bar(
-            data_frame=data, 
-            x="Act",
-            y="Line Count", 
-            barmode='relative'))
-    else: fig = fig.bar(go.Bar(
-        data_frame=data, 
-        x="Act",
-        y="Line Percent", 
-        barmode='relative'))
+    fig.update_layout(barmode='stack')
+    acts = []
+    players = {}
+    for act in data.Act.unique():
+        acts.append('Act ' + str(act))
 
+    for i, player in enumerate(list(data.Player)):
+        if player not in players:
+            players[player] = [0]*5
+        if (mode == MODES["count"]):
+            players[player][list(data.Act)[i] - 1] = list(data.LineCount)[i]
+        else:
+            players[player][list(data.Act)[i] - 1] = list(data.LinePercent)[i]
+
+    for player in data.Player.unique():
+        fig.add_trace(
+            go.Bar(name=player, x=acts, y = players[player])
+        )
     return fig
-
 
 def update_y_axis(fig, mode):
     '''

@@ -23,15 +23,15 @@ def init_figure():
 
     # TODO : Update the template to include our new theme and set the title
     
-    # pas vrm sur
-    hover_template = get_hover_template('',MODES["count"])
     fig.update_layout(
-        title_text='Lines per act',
-        template=pio.templates['simple_white'],
-        dragmode=False,
-        barmode='relative',
-        title='Lines per act'
-    )
+        title_text = 'Lines per act',
+        template = pio.templates['simple_white'],
+        dragmode = False,
+        barmode = 'relative',
+        title = 'Lines per act'
+    ) 
+    pio.templates.default = 'simple_white+custom'
+    fig.update_layout(template = pio.templates.default)
     return fig
 
 

@@ -47,7 +47,7 @@ def draw(fig, data, mode):
     fig = go.Figure()
     
     # TODO : Update the figure's data according to the selected mode
-    fig.update_layout(barmode='stack')
+    fig.update_layout(barmode='stack',title = 'Lines per act')
     acts = []
     players = {}
     for act in data.Act.unique():

@@ -27,8 +27,8 @@ def get_hover_template(name, mode):
     '''
     # TODO: Generate and return the hover template
     if mode == MODES["count"]: 
-        hover_template = """<span style = 'font-family: Grenze Gotish; font-size: 24px; color: Black;'>""" + name + """</span><br>%{y}</span><b> lines</b>"""
+        hover_template = """<span style = 'font-family: Grenze Gotish; font-size: 24px; color: Black;'>""" + name + """</span><br><br>%{y}</span><b> lines</b>""" + "<extra></extra>"
     else:
-        hover_template = """<span style = 'font-family: Grenze Gotish; font-size: 24px; color: Black;'>""" + name + """</span><br>%{y:.2f} %</span><b> of lines</b>"""
+        hover_template = """<span style = 'font-family: Grenze Gotish; font-size: 24px; color: Black;'>""" + name + """</span><br><br>%{y:.2f} %</span><b> of lines</b>"""  + "<extra></extra>"
         
     return hover_template

@@ -27,10 +27,13 @@ def summarize_lines(my_df):
     
     my_df = pd.read_csv('assets/data/romeo_and_juliet.csv')
     
+    #On fait la somme des lignes pour chaque joueur dans chaque acte
     new_cleaned_list = my_df.groupby(['Act', 'Player']).size().reset_index(name='LineCount')
-        
+    
+    #On trouve le pourcentage des lignes pour chaque joueur dans chaque acte
     new_cleaned_list['LinePercent'] = 100 * new_cleaned_list['LineCount'] / new_cleaned_list.groupby('Act')['LineCount'].transform('sum') 
     
+    #On ordonne la liste selon le nombre de lignes pour ajouter de la clarté dans le tri
     my_df = new_cleaned_list.sort_values(by=['Act','LineCount'], ascending=[True,False])
         
     return my_df
@@ -62,22 +65,24 @@ def replace_others(my_df):
     # TODO : Replace players in each act not in the top 5 by a
     # new player 'OTHER' which sums their line count and percentage
     
-    my_df = my_df.sort_values(by=['Act','LineCount'], ascending=[True,False])
-
-    top_players = my_df.groupby('Act').head(5)
     
-    all_other_players = my_df[~my_df.index.isin(top_players.index)]
+    #On vient trouver les 5 joueurs avec le plus de lignes pour tous les actes confondus
+    top_players_list = my_df.groupby('Player').sum('LineCount')
+    top_players_list = top_players_list.sort_values(by=['LineCount'], ascending=[False])
+    top_players = top_players_list.head(5)
+    top_players_list = my_df[my_df.Player.isin(top_players.index)]
     
+    #On vient trouver tous les joueurs qui ne sont pas dans le top 5
+    all_other_players = my_df[~my_df.Player.isin(top_players.index)]
     all_other_players = all_other_players.groupby('Act').agg({
         'Player' : 'last',
         'LineCount' : 'sum',
         'LinePercent' : 'sum'
     }).reset_index()
-    
     all_other_players['Player'] = 'OTHER'
-    
-    my_df = pd.concat([top_players, all_other_players])
-    
+
+    #On assemble les deux listes ensemble pour retrouver notre df initiale triée
+    my_df = pd.concat([top_players_list, all_other_players])
     my_df = my_df.sort_values(by=['Act'], ascending=[True])
     
     return my_df

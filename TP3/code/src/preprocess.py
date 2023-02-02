@@ -14,6 +14,11 @@ def convert_dates(dataframe):
             The processed dataframe with datetime-formatted dates.
     '''
     # TODO : Convert dates
+    
+    dataframe = pd.read_csv('assets/data/arbres.csv')
+    
+    dataframe["Date_Plantation"] = pd.to_datetime(dataframe["Date_Plantation"], format='%Y-%m-%d')
+    
     return dataframe
 
 
@@ -30,7 +35,13 @@ def filter_years(dataframe, start, end):
             The dataframe filtered by date.
     '''
     # TODO : Filter by dates
-    return dataframe
+    
+    filtered_dataframe = dataframe.loc[(dataframe.Date_Plantation.dt.year >= start)
+                                       & (dataframe.Date_Plantation.dt.year <= end)]
+    
+    filtered_dataframe = filtered_dataframe.sort_values(by=["Date_Plantation"], ascending=[True])
+        
+    return filtered_dataframe
 
 
 def summarize_yearly_counts(dataframe):
@@ -47,7 +58,10 @@ def summarize_yearly_counts(dataframe):
             trees for each neighborhood each year.
     '''
     # TODO : Summarize df
-    return None
+    
+    dataframe = dataframe.groupby(['Arrond_Nom','Arrond',dataframe.Date_Plantation.dt.year]).size().reset_index(name='Count')
+    
+    return dataframe
 
 
 def restructure_df(yearly_df):
@@ -69,7 +83,16 @@ def restructure_df(yearly_df):
             The restructured dataframe
     '''
     # TODO : Restructure df and fill empty cells with 0
-    return None
+    
+    restruct_df = yearly_df.drop(columns=["Arrond"])
+    
+    restruct_df["Date_Plantation"] = restruct_df["Date_Plantation"].astype(str) + '-12-31'
+    
+    restruct_df = restruct_df.pivot(index="Arrond_Nom", columns="Date_Plantation", values="Count")
+    
+    restruct_df = restruct_df.fillna(0)
+    
+    return restruct_df
 
 
 def get_daily_info(dataframe, arrond, year):
@@ -87,4 +110,8 @@ def get_daily_info(dataframe, arrond, year):
             neighborhood and year.
     '''
     # TODO : Get daily tree count data and return
-    return None
+    
+    # Have to implement heatmap first to see if it works    
+    daily_tree_count = dataframe.get_value(arrond,year)
+    
+    return daily_tree_count

@@ -95,7 +95,6 @@ def heatmap_clicked(click_data):
 
     arrond = click_data['points'][0]['y']
     year = click_data['points'][0]['x']
-
     line_data = preprocess.get_daily_info(
         dataframe,
         arrond,

@@ -48,6 +48,19 @@ def create_custom_theme():
         degrees to the right.
     '''
     # TODO : Generate template described above
+    
+    pio.templates["custom_theme"] = dict(
+    layout = go.Layout(
+        font = dict(family = THEME['font_family'], color = THEME['dark_color']),            
+        plot_bgcolor = THEME['background_color'],
+        paper_bgcolor = THEME['background_color'],
+        coloraxis = {"colorscale": THEME['colorscale']},
+        hovermode = 'closest',
+        hoverlabel = dict(
+            font = dict(
+                family = THEME['font_family'], size = THEME['label_font_size'],
+                color = THEME['dark_color']), bgcolor = THEME['label_background_color'])))
+       
 
 
 def set_default_theme():
@@ -56,3 +69,9 @@ def set_default_theme():
         'plotly_white' theme and our custom theme.
     '''
     # TODO : Set default theme
+    
+    fig = go.Figure()
+    pio.templates.default = 'plotly_white+custom_theme'
+    fig.update_layout(template = pio.templates.default) 
+    return fig
+

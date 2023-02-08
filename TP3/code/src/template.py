@@ -49,7 +49,7 @@ def create_custom_theme():
     '''
     # TODO : Generate template described above
     
-    pio.templates["custom_theme"] = dict(
+    pio.templates["custom_theme"] = go.layout.Template(
     layout = go.Layout(
         font = dict(family = THEME['font_family'], color = THEME['dark_color']),            
         plot_bgcolor = THEME['background_color'],

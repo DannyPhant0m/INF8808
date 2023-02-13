@@ -23,11 +23,14 @@ def get_figure(data):
     fig = px.imshow(data,
                     x=data.columns,
                     y=data.index)
-    
+    print('fun columns: ' + data.columns)
+    print('fun index: ' + data.index)
     fig.update_layout(
         xaxis_title='Year',
         yaxis_title='Neighborhood',
         coloraxis_colorbar_title_text = 'Trees',
-        dragmode = False
+        dragmode = False,
+        xaxis_tickmode = 'linear'
     ) 
+    fig.update_traces(hovertemplate = hover_template.get_heatmap_hover_template())
     return fig

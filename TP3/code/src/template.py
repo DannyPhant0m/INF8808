@@ -54,7 +54,7 @@ def create_custom_theme():
         font = dict(family = THEME['font_family'], color = THEME['dark_color']),            
         plot_bgcolor = THEME['background_color'],
         paper_bgcolor = THEME['background_color'],
-        coloraxis = {"colorscale": THEME['colorscale']},
+        colorscale_sequential = THEME['colorscale'],
         hovermode = 'closest',
         hoverlabel = dict(
             font = dict(
@@ -70,7 +70,5 @@ def set_default_theme():
     '''
     # TODO : Set default theme
     
-    fig = go.Figure()
     pio.templates.default = 'plotly_white+custom_theme'
-    fig.update_layout(template = pio.templates.default) 
 

@@ -27,7 +27,6 @@ app = dash.Dash(__name__)
 app.title = 'TP3 | INF8808'
 
 dataframe = pd.read_csv('./assets/data/arbres.csv')
-
 dataframe = preprocess.convert_dates(dataframe)
 dataframe = preprocess.filter_years(dataframe, 2010, 2020)
 yearly_df = preprocess.summarize_yearly_counts(dataframe)
@@ -68,7 +67,6 @@ app.layout = html.Div(className='content', children=[
         )
     ])
 ])
-
 
 @app.callback(
     Output('line-chart', 'figure'),

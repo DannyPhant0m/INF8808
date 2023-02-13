@@ -112,6 +112,6 @@ def get_daily_info(dataframe, arrond, year):
     # TODO : Get daily tree count data and return
     
     # Have to implement heatmap first to see if it works    
-    daily_tree_count = dataframe.get_value(arrond,year)
+    #daily_tree_count = dataframe.get_value(arrond,year)
     
-    return daily_tree_count
+    #return daily_tree_count

@@ -73,5 +73,4 @@ def set_default_theme():
     fig = go.Figure()
     pio.templates.default = 'plotly_white+custom_theme'
     fig.update_layout(template = pio.templates.default) 
-    return fig
 

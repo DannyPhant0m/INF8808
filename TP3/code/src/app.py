@@ -52,7 +52,8 @@ app.layout = html.Div(className='content', children=[
                 doubleClick=False,
                 displayModeBar=False
             )
-        ),
+        )
+        ,
         dcc.Graph(
             id='line-chart',
             className='graph',

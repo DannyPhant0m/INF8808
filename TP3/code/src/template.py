@@ -55,13 +55,13 @@ def create_custom_theme():
         plot_bgcolor = THEME['background_color'],
         paper_bgcolor = THEME['background_color'],
         colorscale_sequential = THEME['colorscale'],
+        xaxis = go.layout.XAxis(tickangle = -45),
         hovermode = 'closest',
         hoverlabel = dict(
             font = dict(
                 family = THEME['font_family'], size = THEME['label_font_size'],
                 color = THEME['dark_color']), bgcolor = THEME['label_background_color'])))
        
-
 
 def set_default_theme():
     '''

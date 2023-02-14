@@ -86,7 +86,7 @@ def restructure_df(yearly_df):
     
     restruct_df = yearly_df.drop(columns=["Arrond"])
     
-    restruct_df["Date_Plantation"] = restruct_df["Date_Plantation"].astype(str) + '-12-31'
+    restruct_df["Date_Plantation"] = restruct_df["Date_Plantation"].astype(str)
     
     restruct_df = restruct_df.pivot(index="Arrond_Nom", columns="Date_Plantation", values="Count")
     

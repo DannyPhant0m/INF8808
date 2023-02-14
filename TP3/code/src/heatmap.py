@@ -22,9 +22,8 @@ def get_figure(data):
     # the layout. Also don't forget to include the hover template.
     fig = px.imshow(data,
                     x=data.columns,
-                    y=data.index)
-    print('fun columns: ' + data.columns)
-    print('fun index: ' + data.index)
+                    y=data.index,
+                    aspect='auto')
     fig.update_layout(
         xaxis_title='Year',
         yaxis_title='Neighborhood',

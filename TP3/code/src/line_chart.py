@@ -24,6 +24,7 @@ def get_empty_figure():
         dragmode=False,
         annotations=[dict(x=0.5, y=0.5, text="No data to display. Select a cell in the heatmap for more information.", showarrow=False)]
     )
+    #remove grid in the bg
     return fig
 
 def add_rectangle_shape(fig):
@@ -46,7 +47,8 @@ def add_rectangle_shape(fig):
             y0=0.25,
             x1=1,
             y1=0.75,
-            fillcolor=THEME.pale_color,
+            fillcolor=THEME['pale_color'],
+            line=dict(width=0),
         )]
     )
     return fig

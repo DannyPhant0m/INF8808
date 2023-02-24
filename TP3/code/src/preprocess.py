@@ -59,8 +59,7 @@ def summarize_yearly_counts(dataframe):
     '''
     # TODO : Summarize df
     
-    dataframe = dataframe.groupby(['Arrond_Nom','Arrond',dataframe.Date_Plantation.dt.year]).size().reset_index(name='Count')
-    
+    dataframe = dataframe.groupby(['Arrond_Nom','Arrond',dataframe.Date_Plantation.dt.year]).size().reset_index(name='Counts')
     return dataframe
 
 
@@ -88,7 +87,7 @@ def restructure_df(yearly_df):
     
     restruct_df["Date_Plantation"] = restruct_df["Date_Plantation"].astype(str)
     
-    restruct_df = restruct_df.pivot(index="Arrond_Nom", columns="Date_Plantation", values="Count")
+    restruct_df = restruct_df.pivot(index="Arrond_Nom", columns="Date_Plantation", values="Counts")
     
     restruct_df = restruct_df.fillna(0)
     
@@ -110,8 +109,12 @@ def get_daily_info(dataframe, arrond, year):
             neighborhood and year.
     '''
     # TODO : Get daily tree count data and return
+
+    data = dataframe[(dataframe['Date_Plantation'] >= ('%d-01-01' % int(year))) & 
+                    (dataframe['Date_Plantation'] <= ('%d-12-31' % int(year))) &
+                    (dataframe['Arrond_Nom'] == arrond)]
     
-    # Have to implement heatmap first to see if it works    
-    #daily_tree_count = dataframe.get_value(arrond,year)
-    
-    #return daily_tree_count
+
+    data = data.groupby(pd.Grouper(key='Date_Plantation',freq='1D')).size().reset_index(name='Counts')
+
+    return data

@@ -20,11 +20,12 @@ def get_empty_figure():
     # set dragmode=False in the layout.
     
     fig = px.line()
+    fig.update_xaxes(visible=False, fixedrange=True)
+    fig.update_yaxes(visible=False, fixedrange=True)
     fig.update_layout(
         dragmode=False,
-        annotations=[dict(x=0.5, y=0.5, text="No data to display. Select a cell in the heatmap for more information.", showarrow=False)]
+        annotations=[dict(text="No data to display. Select a cell in the heatmap for more information.", showarrow=False)]
     )
-    #remove grid in the bg
     return fig
 
 def add_rectangle_shape(fig):
@@ -76,4 +77,16 @@ def get_figure(line_data, arrond, year):
             The figure to be displayed
     '''
     # TODO : Construct the required figure. Don't forget to include the hover template
-    return None
+
+    if len(list(line_data['Counts'])) > 1:
+        fig = px.line(line_data, x = "Date_Plantation", y = "Counts")
+    else:
+        fig = px.scatter(line_data, x = "Date_Plantation", y = "Counts")
+        
+    
+    fig.update_traces(hovertemplate = hover_template.get_linechart_hover_template())
+
+    fig.update_layout(title = f"Trees planted in {arrond} in {year}", xaxis_title = " ", yaxis_title = " Trees ")
+
+    fig.update_xaxes(tickformat="%d %b")
+    return fig

@@ -83,10 +83,13 @@ def get_figure(line_data, arrond, year):
     else:
         fig = px.scatter(line_data, x = "Date_Plantation", y = "Counts")
         
+    fig.update_traces(hovertemplate = hover_template.get_linechart_hover_template(),
+                      line=dict(color=THEME['line_chart_color']),
+                      marker=dict(color=THEME['line_chart_color']))
     
-    fig.update_traces(hovertemplate = hover_template.get_linechart_hover_template())
-
-    fig.update_layout(title = f"Trees planted in {arrond} in {year}", xaxis_title = " ", yaxis_title = " Trees ")
+    fig.update_layout(title = f"Trees planted in {arrond} in {year}", 
+                      xaxis_title = " ", 
+                      yaxis_title = " Trees ")
 
     fig.update_xaxes(tickformat="%d %b")
     return fig

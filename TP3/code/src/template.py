@@ -61,8 +61,7 @@ def create_custom_theme():
             font = dict(
                 family = THEME['font_family'], size = THEME['label_font_size'],
                 color = THEME['dark_color']), bgcolor = THEME['label_background_color'])))
-       
-
+    
 def set_default_theme():
     '''
         Sets the default theme to be a combination of the

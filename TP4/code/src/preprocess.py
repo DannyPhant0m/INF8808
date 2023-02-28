@@ -13,7 +13,12 @@ def round_decimals(my_df):
             The dataframe with rounded numbers
     '''
     # TODO : Round the dataframe
-    return None
+    
+    my_df['GDP'] = my_df['GDP'].round(2)
+    my_df['CO2'] = my_df['CO2'].round(2)
+    
+    print(my_df)
+    return my_df
 
 
 def get_range(col, df1, df2):

@@ -2,6 +2,7 @@
     This file contains the code for the bubble plot.
 '''
 
+import plotly.io as pio
 import plotly.express as px
 
 import hover_template
@@ -27,7 +28,12 @@ def get_plot(my_df, gdp_range, co2_range):
             The generated figure
     '''
     # TODO : Define figure with animation
-    return None
+    data = px.data.gapminder()
+    print(data)
+    fig = px.scatter(my_df, x="GDP", y="CO2", animation_frame="Year", animation_group="Country Name",
+	                size="Population", color="Continent",
+                    hover_name="Country Name", log_x=True, log_y=True, range_x=gdp_range, range_y=co2_range)
+    return fig
 
 
 def update_animation_hover_template(fig):
@@ -43,7 +49,8 @@ def update_animation_hover_template(fig):
     '''
 
     # TODO : Set the hover template
-    return None
+    # fig.update_traces(hovertemplate = hover_template.get_bubble_hover_template())
+    return fig
 
 
 def update_animation_menu(fig):
@@ -57,7 +64,19 @@ def update_animation_menu(fig):
             The updated figure
     '''
     # TODO : Update animation menu
-    return None
+    fig.update_layout(dict(
+        updatemenus=[dict(
+            type="buttons",
+            buttons=[dict(label="Animate",
+                          method="animate",
+                          args=[None]),
+                     dict(visible=False)]
+                    )
+                    ],
+        sliders=[dict(
+            currentvalue=dict(prefix="Data for year : "))]
+    ))
+    return fig
 
 
 def update_axes_labels(fig):
@@ -70,7 +89,9 @@ def update_axes_labels(fig):
             The updated figure
     '''
     # TODO : Update labels
-    return None
+    fig.update_layout(xaxis_title = "GDP per capita ($ USD)", 
+                      yaxis_title = "CO2 emissions per capita (metric tonnes)")
+    return fig
 
 
 def update_template(fig):
@@ -84,7 +105,11 @@ def update_template(fig):
             The updated figure
     '''
     # TODO : Update template
-    return None
+    pio.templates.default = 'simple_white'
+    fig.update_layout(
+        template = pio.templates.default
+    ) 
+    return fig
 
 
 def update_legend(fig):
@@ -97,4 +122,7 @@ def update_legend(fig):
             The updated figure
     '''
     # TODO : Update legend
-    return None
+    fig.update_layout(
+        legend=dict(title="Legend")
+    )
+    return fig

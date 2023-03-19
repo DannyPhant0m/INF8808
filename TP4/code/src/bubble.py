@@ -28,8 +28,6 @@ def get_plot(my_df, gdp_range, co2_range):
             The generated figure
     '''
     # TODO : Define figure with animation
-    data = px.data.gapminder()
-    print(data)
     fig = px.scatter(my_df, x="GDP", y="CO2", animation_frame="Year", animation_group="Country Name",
 	                size="Population", color="Continent",
                     hover_name="Country Name", log_x=True, log_y=True, range_x=gdp_range, range_y=co2_range)

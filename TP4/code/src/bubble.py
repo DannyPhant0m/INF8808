@@ -30,6 +30,7 @@ def get_plot(my_df, gdp_range, co2_range):
     # TODO : Define figure with animation
     fig = px.scatter(my_df, x="GDP", y="CO2", animation_frame="Year", animation_group="Country Name",
 	                size="Population", color="Continent",
+                    custom_data=['Country Name', 'Population'],
                     hover_name="Country Name", log_x=True, log_y=True, range_x=gdp_range, range_y=co2_range)
     return fig
 
@@ -47,7 +48,13 @@ def update_animation_hover_template(fig):
     '''
 
     # TODO : Set the hover template
-    # fig.update_traces(hovertemplate = hover_template.get_bubble_hover_template())
+    
+    for frame in fig.frames:
+        for data in frame.data:
+            data.hovertemplate = hover_template.get_bubble_hover_template()
+            
+    fig.update_traces(hovertemplate = hover_template.get_bubble_hover_template()) 
+    
     return fig
 
 

@@ -40,6 +40,7 @@ def add_choro_trace(fig, montreal_data, locations, z_vals, colorscale):
             marker_opacity=0.5, 
             name='',
             showlegend=True,
+            featureidkey="properties.NOM"
             # hovertemplate=hover.template 
         )
     )
@@ -63,19 +64,49 @@ def add_scatter_traces(fig, street_df):
     '''
     # TODO : Add the scatter markers to the map base
     
-    fig.add_trace(
-        go.Scattermapbox(
-            #name=street_df['properties.TYPE_SITE_INTERVENTION'].astype(str),
-            lon=street_df['properties.LONGITUDE'],
-            lat=street_df['properties.LATITUDE'],
+    colors = ['royalblue', 'indianred', 'mediumspringgreen', 'mediumpurple', 'orange', 'skyblue', 'hotpink']
+
+    trace_groups = {}
+
+    for i, row in street_df.iterrows():
+        name = row['properties.TYPE_SITE_INTERVENTION']
+        if name in trace_groups:
+            trace_groups[name].append(
+                go.Scattermapbox(
+                    lon=[row['properties.LONGITUDE']],
+                    lat=[row['properties.LATITUDE']],
+                    mode='markers',
+                    marker=dict(
+                        size=20,
+                        opacity=1
+                    ),
+                )
+            )
+        else:
+            trace_groups[name] = [
+                go.Scattermapbox(
+                    name=name,
+                    lon=[row['properties.LONGITUDE']],
+                    lat=[row['properties.LATITUDE']],
+                    mode='markers',
+                    marker=dict(
+                        size=20,
+                        opacity=1
+                    ),
+                )
+            ]
+            
+    for i, (name, traces) in enumerate(trace_groups.items()):
+        fig.add_trace(go.Scattermapbox(
+            name=name,
+            lon=[trace['lon'][0] for trace in traces],
+            lat=[trace['lat'][0] for trace in traces],
             mode='markers',
             marker=dict(
                 size=20,
-                color='blue',
-                opacity=0.7
+                color=colors[i % len(colors)],
+                opacity=1
             ),
-            #hovertemplate=
-        )
-    )
+        ))
 
     return fig

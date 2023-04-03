@@ -79,5 +79,4 @@ def get_neighborhoods(montreal_data):
     features = montreal_data["features"]
     neighborhoods_df = json_normalize(features)
     neighborhoods_df = neighborhoods_df['properties.NOM'].unique()
-    
     return neighborhoods_df

@@ -37,10 +37,9 @@ def add_choro_trace(fig, montreal_data, locations, z_vals, colorscale):
             locations=locations, 
             z=z_vals, 
             colorscale=colorscale, 
-            marker_opacity=0.5, 
-            name='',
-            showlegend=True,
-            featureidkey="properties.NOM"
+            marker_opacity=0.2, 
+            featureidkey="properties.NOM",
+            showscale=False,
             # hovertemplate=hover.template 
         )
     )
@@ -64,7 +63,7 @@ def add_scatter_traces(fig, street_df):
     '''
     # TODO : Add the scatter markers to the map base
     
-    colors = ['royalblue', 'indianred', 'mediumspringgreen', 'mediumpurple', 'orange', 'skyblue', 'hotpink']
+    colors = ['royalblue', 'tomato', 'mediumspringgreen', 'mediumpurple', 'orange', 'turquoise', 'hotpink']
 
     trace_groups = {}
 

@@ -40,9 +40,10 @@ def add_choro_trace(fig, montreal_data, locations, z_vals, colorscale):
             marker_opacity=0.2, 
             featureidkey="properties.NOM",
             showscale=False,
-            # hovertemplate=hover.template 
         )
     )
+    
+    fig.update_traces(hovertemplate=hover.map_base_hover_template())
     
     return fig
 
@@ -74,6 +75,7 @@ def add_scatter_traces(fig, street_df):
                 go.Scattermapbox(
                     lon=[row['properties.LONGITUDE']],
                     lat=[row['properties.LATITUDE']],
+                    hovertemplate=hover.map_marker_hover_template(name),
                     mode='markers',
                     marker=dict(
                         size=20,
@@ -87,11 +89,17 @@ def add_scatter_traces(fig, street_df):
                     name=name,
                     lon=[row['properties.LONGITUDE']],
                     lat=[row['properties.LATITUDE']],
+                    hovertemplate=hover.map_base_hover_template(),
                     mode='markers',
                     marker=dict(
                         size=20,
                         opacity=1
                     ),
+                    customdata=[
+                        row["properties.NOM_PROJET"],
+                        row["properties.MODE_IMPLANTATION"],
+                        row["properties.OBJECTIF_THEMATIQUE"],
+                    ],
                 )
             ]
             
@@ -101,6 +109,7 @@ def add_scatter_traces(fig, street_df):
             lon=[trace['lon'][0] for trace in traces],
             lat=[trace['lat'][0] for trace in traces],
             mode='markers',
+            hovertemplate=hover.map_marker_hover_template(name),
             marker=dict(
                 size=20,
                 color=colors[i % len(colors)],

@@ -38,7 +38,7 @@ def map_base_clicked(title, mode, theme, style):
             style: The updated display style for the panel
     '''
     # TODO : Handle clicks on the map base
-    return None, None, None, None
+    return title, mode, theme, style
 
 
 def map_marker_clicked(figure, curve, point, title, mode, theme, style): # noqa : E501 pylint: disable=unused-argument too-many-arguments line-too-long
@@ -60,4 +60,26 @@ def map_marker_clicked(figure, curve, point, title, mode, theme, style): # noqa 
             style: The updated display style for the panel
     '''
     # TODO : Handle clicks on the markers
-    return None, None, None, None
+    print(figure["data"][curve])
+    print(point)
+    print(mode)
+    print(theme)
+    if theme is not None:
+        theme = (
+            html.Div(
+                [
+                    "Thématique:",
+                    html.Ul(children=[html.Li(item) for item in theme.split("\n")]),
+                ]
+            ),
+        )
+
+    return (
+        html.Div(title, style={"color": figure["data"][curve]["marker"]["color"]}),
+        mode,
+        theme,
+        {
+            "border": "1px solid black",
+            "padding": "10px",
+        },
+    )

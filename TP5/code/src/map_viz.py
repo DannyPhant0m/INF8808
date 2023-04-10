@@ -65,56 +65,21 @@ def add_scatter_traces(fig, street_df):
     # TODO : Add the scatter markers to the map base
     
     colors = ['royalblue', 'tomato', 'mediumspringgreen', 'mediumpurple', 'orange', 'turquoise', 'hotpink']
-
-    trace_groups = {}
-
-    for i, row in street_df.iterrows():
-        name = row['properties.TYPE_SITE_INTERVENTION']
-        if name in trace_groups:
-            trace_groups[name].append(
-                go.Scattermapbox(
-                    lon=[row['properties.LONGITUDE']],
-                    lat=[row['properties.LATITUDE']],
-                    hovertemplate=hover.map_marker_hover_template(name),
-                    mode='markers',
-                    marker=dict(
-                        size=20,
-                        opacity=1
-                    ),
-                )
-            )
-        else:
-            trace_groups[name] = [
-                go.Scattermapbox(
-                    name=name,
-                    lon=[row['properties.LONGITUDE']],
-                    lat=[row['properties.LATITUDE']],
-                    hovertemplate=hover.map_base_hover_template(),
-                    mode='markers',
-                    marker=dict(
-                        size=20,
-                        opacity=1
-                    ),
-                    customdata=[
-                        row["properties.NOM_PROJET"],
-                        row["properties.MODE_IMPLANTATION"],
-                        row["properties.OBJECTIF_THEMATIQUE"],
-                    ],
-                )
-            ]
-            
-    for i, (name, traces) in enumerate(trace_groups.items()):
-        fig.add_trace(go.Scattermapbox(
-            name=name,
-            lon=[trace['lon'][0] for trace in traces],
-            lat=[trace['lat'][0] for trace in traces],
-            mode='markers',
-            hovertemplate=hover.map_marker_hover_template(name),
-            marker=dict(
-                size=20,
-                color=colors[i % len(colors)],
-                opacity=1
-            ),
-        ))
+    figure=px.scatter_mapbox(
+        street_df,
+        lat = "properties.LATITUDE",
+        lon = "properties.LONGITUDE", 
+        color = "properties.TYPE_SITE_INTERVENTION",
+        color_continuous_scale = colors,
+        custom_data = [
+            "properties.NOM_PROJET", 
+            "properties.MODE_IMPLANTATION", 
+            "properties.OBJECTIF_THEMATIQUE", 
+            "properties.TYPE_SITE_INTERVENTION"]
+    )
+    figure.update_traces(marker = {'size': 20}, hovertemplate = hover.map_marker_hover_template('%{customdata[3]}'))
+    
+    for i in range(len(figure.data)):
+        fig.add_trace(figure.data[i])
 
     return fig

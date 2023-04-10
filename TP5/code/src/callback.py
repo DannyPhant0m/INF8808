@@ -18,7 +18,7 @@ def no_clicks(style):
             style: The updated display style for the panel
     '''
     # TODO : Handle no clicks on the map
-    return None, None, None, None
+    return None, None, None, style
 
 
 def map_base_clicked(title, mode, theme, style):
@@ -37,7 +37,7 @@ def map_base_clicked(title, mode, theme, style):
             theme: The updated display theme
             style: The updated display style for the panel
     '''
-    # TODO : Handle clicks on the map base
+    # TODO : Handle clicks on the
     return title, mode, theme, style
 
 
@@ -59,27 +59,22 @@ def map_marker_clicked(figure, curve, point, title, mode, theme, style): # noqa 
             theme: The updated display theme
             style: The updated display style for the panel
     '''
-    # TODO : Handle clicks on the markers
-    print(figure["data"][curve])
-    print(point)
-    print(mode)
-    print(theme)
-    if theme is not None:
-        theme = (
-            html.Div(
-                [
-                    "Thématique:",
-                    html.Ul(children=[html.Li(item) for item in theme.split("\n")]),
-                ]
-            ),
-        )
-
+    # TODO : Handle clicks on the markers    
+    title = figure['data'][curve]['customdata'][point][0] # NOM_PROJET
+    mode = figure['data'][curve]['customdata'][point][1] # MODE_IMPLANTATION
+    theme = figure['data'][curve]['customdata'][point][2] # OBJECTIF_THEMATIQUE
+    color = figure['data'][curve]['marker']['color']
+    
+    theme_div = None
+    if theme:
+        theme_div = html.Div("\n"), html.Div("Thématique:"), html.Ul(children=[html.Li(i) for i in theme.split('\n')])
+    
     return (
-        html.Div(title, style={"color": figure["data"][curve]["marker"]["color"]}),
-        mode,
-        theme,
+        html.Div(title , style={'color': color,'fontWeight': 'bold'}), 
+        html.Div(mode, style={'fontWeight': 'bold'}),
+        theme_div, 
         {
-            "border": "1px solid black",
-            "padding": "10px",
-        },
+            'border': '1px solid black', 
+            'padding': '10px'
+        }
     )
